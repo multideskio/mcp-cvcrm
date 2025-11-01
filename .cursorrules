@@ -1,0 +1,123 @@
+# Cursor Rules para CV CRM MCP Server
+
+## 📚 Documentação
+
+Sempre consulte a documentação na pasta `docs/` antes de fazer alterações:
+
+1. **Visão Geral:** docs/00-PROJECT-OVERVIEW.md
+2. **Arquitetura:** docs/01-ARCHITECTURE.md
+3. **Autenticação:** docs/02-AUTHENTICATION.md
+4. **API Endpoints:** docs/03-API-ENDPOINTS.md
+5. **MCP Tools:** docs/04-MCP-TOOLS.md
+6. **Deploy:** docs/05-DEPLOYMENT.md
+
+## 🎯 Regras de Desenvolvimento
+
+### Estrutura de Arquivos
+
+- Módulos em `src/lib/`
+- Types em `src/types/`
+- Configurações em `src/config/`
+- MCP Tools em `src/lib/mcp/tools/`
+- Entry point MCP em `src/mcp/index.ts`
+
+### TypeScript
+
+- Sempre tipar variáveis e funções
+- Usar `z.infer<typeof schema>` para types de schemas Zod
+- Evitar `any`, preferir `unknown`
+- Usar interfaces para objetos públicos, types para unions/intersections
+
+### Validação
+
+- Validar inputs com Zod antes de usar
+- Lançar erros tipados (`ValidationError`, `AuthenticationError`, etc)
+- Sanitizar strings de usuário
+
+### Errors
+
+- Usar classes de erro customizadas em `lib/utils/errors.ts`
+- Sempre logar erros com contexto
+- Mensagens user-friendly no MCP
+
+### Logs
+
+- Usar `logger` de `lib/utils/logger.ts`
+- Log level apropriado (debug, info, warn, error)
+- Incluir contexto relevante nos logs
+- Não logar dados sensíveis (tokens, senhas)
+
+### MCP Tools
+
+- Um arquivo por categoria em `lib/mcp/tools/`
+- Schema Zod para validação
+- Tool definition seguindo padrão MCP
+- Handler async retornando string formatada
+- Usar emojis e markdown para respostas user-friendly
+
+### Autenticação
+
+- Sempre usar `getAuthManager().getToken()`
+- Não armazenar tokens em variáveis globais
+- Renovar automaticamente quando expirado
+- Cache no Redis com TTL
+
+### Cache (Redis)
+
+- Usar padrões de keys de `config/redis.ts`
+- Definir TTL apropriado
+- Invalidar cache quando necessário
+- Tratar erros de cache gracefully
+
+### API Client
+
+- Um método por endpoint
+- Validar inputs antes de chamar API
+- Tratar erros específicos (401, 404, 422)
+- Logar sucesso e erros
+
+## 🚫 Não Fazer
+
+- ❌ Não commitar `.env`
+- ❌ Não usar `console.log` (usar `logger`)
+- ❌ Não ignorar erros de validação
+- ❌ Não fazer requests sem autenticação
+- ❌ Não armazenar dados sensíveis em logs
+- ❌ Não criar tools sem documentar em docs/04-MCP-TOOLS.md
+
+## ✅ Fazer Sempre
+
+- ✅ Consultar documentação antes de mudar código
+- ✅ Validar inputs com Zod
+- ✅ Logar operações importantes
+- ✅ Usar tipos TypeScript estritos
+- ✅ Atualizar documentação ao adicionar funcionalidades
+- ✅ Seguir padrões de nomenclatura do projeto
+- ✅ Tratar erros de forma apropriada
+
+## 🔄 Workflow
+
+1. Ler documentação relevante em `docs/`
+2. Implementar seguindo padrões existentes
+3. Validar com TypeScript (`npm run type-check`)
+4. Testar localmente
+5. Atualizar documentação se necessário
+6. Commit com mensagem descritiva
+
+## 📝 Commits
+
+- `feat:` Nova funcionalidade
+- `fix:` Correção de bug
+- `docs:` Atualização de documentação
+- `refactor:` Refatoração
+- `test:` Testes
+- `chore:` Tarefas de manutenção
+
+## 🎨 Formatação de Respostas MCP
+
+- Usar emojis apropriados (✅ sucesso, ❌ erro, 📋 lista, etc)
+- Markdown para formatação
+- Informações relevantes (IDs, protocolos, datas)
+- Próximos passos quando aplicável
+- Mensagens de erro claras e acionáveis
+

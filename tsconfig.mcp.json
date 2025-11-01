@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "outDir": "./dist",
+    "noEmit": false,
+    "rootDir": "./src/mcp",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true
+  },
+  "include": ["src/mcp/**/*.ts", "src/lib/**/*.ts", "src/types/**/*.ts", "src/config/**/*.ts"],
+  "exclude": ["node_modules", "src/app", "**/*.test.ts"]
+}
+
