@@ -132,7 +132,7 @@ export class RedisCacheManager {
         return [];
       }
 
-      const values = await this.redis.mget<T>(...keys);
+      const values = await this.redis.mget(...keys) as (T | null)[];
       return values;
     } catch (error) {
       logOperationError('Cache MGET', error, { keys });

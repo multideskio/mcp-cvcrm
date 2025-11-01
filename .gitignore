@@ -79,3 +79,5 @@ Desktop.ini
 
 # MCP Specific
 .mcp-cache/
+.next/
+.cursor/

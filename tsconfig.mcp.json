@@ -1,14 +1,21 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "target": "ES2022",
     "outDir": "./dist",
     "noEmit": false,
-    "rootDir": "./src/mcp",
+    "rootDir": "./src",
     "declaration": true,
     "declarationMap": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["src/mcp/**/*.ts", "src/lib/**/*.ts", "src/types/**/*.ts", "src/config/**/*.ts"],
   "exclude": ["node_modules", "src/app", "**/*.test.ts"]

@@ -120,9 +120,9 @@ export async function handleCriarChamado(args: unknown): Promise<string> {
 
 export async function handleConsultarChamados(args: unknown): Promise<string> {
   const client = getCVCRMClient();
-  const { clienteId, unidadeId, situacao } = consultarChamadosSchema.parse(args);
+  const { unidadeId, situacao } = consultarChamadosSchema.parse(args);
 
-  const filtros: any = {};
+  const filtros: Record<string, unknown> = {};
   if (unidadeId) filtros.unidadeId = unidadeId;
   if (situacao) filtros.situacao = situacao;
 

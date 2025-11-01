@@ -88,14 +88,19 @@ export async function handleConsultarParcelas(args: unknown): Promise<string> {
   // Consultar parcelas da reserva
   // Nota: Endpoint específico pode ser necessário
   // GET /reservas/{id}/parcelas
-  const parcelas = await client.request<any>(
+  type Parcela = {
+    situacao: string;
+    valor: number;
+  };
+
+  const parcelas = await client.request<Parcela[]>(
     `/reservas/${reserva.id}/parcelas`
   );
 
   // Filtrar por situação se especificado
   let parcelasFiltradas = parcelas;
   if (situacao && situacao !== 'todas') {
-    parcelasFiltradas = parcelas.filter((p: any) => {
+    parcelasFiltradas = parcelas.filter((p) => {
       if (situacao === 'em_aberto') return p.situacao === 'em_aberto';
       if (situacao === 'vencidas') return p.situacao === 'vencida';
       if (situacao === 'pagas') return p.situacao === 'paga';
@@ -106,14 +111,14 @@ export async function handleConsultarParcelas(args: unknown): Promise<string> {
   // Calcular resumo
   const resumo = {
     totalPago: parcelas
-      .filter((p: any) => p.situacao === 'paga')
-      .reduce((sum: number, p: any) => sum + p.valor, 0),
+      .filter((p) => p.situacao === 'paga')
+      .reduce((sum, p) => sum + p.valor, 0),
     totalEmAberto: parcelas
-      .filter((p: any) => p.situacao === 'em_aberto')
-      .reduce((sum: number, p: any) => sum + p.valor, 0),
+      .filter((p) => p.situacao === 'em_aberto')
+      .reduce((sum, p) => sum + p.valor, 0),
     totalVencido: parcelas
-      .filter((p: any) => p.situacao === 'vencida')
-      .reduce((sum: number, p: any) => sum + p.valor, 0),
+      .filter((p) => p.situacao === 'vencida')
+      .reduce((sum, p) => sum + p.valor, 0),
   };
 
   return JSON.stringify({
@@ -129,7 +134,15 @@ export async function handleGerarBoleto(args: unknown): Promise<string> {
   // Gerar boleto
   // Nota: Endpoint específico necessário
   // POST /financeiro/boletos/segunda-via
-  const boleto = await client.request<any>('/financeiro/boletos/segunda-via', {
+  type BoletoResponse = {
+    linkBoleto: string;
+    valor: number;
+    dataVencimento: string;
+    codigoBarras: string;
+    emailEnviado?: boolean;
+  };
+
+  const boleto = await client.request<BoletoResponse>('/financeiro/boletos/segunda-via', {
     method: 'POST',
     body: JSON.stringify({
       parcelaId,

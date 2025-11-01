@@ -72,7 +72,7 @@ export async function handleListarEmpreendimentos(args: unknown): Promise<string
       // Buscar unidades disponíveis
       // Nota: Endpoint pode ser GET /empreendimentos/{id}/unidades?disponivel=true
       try {
-        const unidades = await client.request<any[]>(
+        const unidades = await client.request<Array<{ valorVenda?: number }>>(
           `/empreendimentos/${emp.id}/unidades?disponivel=true`
         );
 

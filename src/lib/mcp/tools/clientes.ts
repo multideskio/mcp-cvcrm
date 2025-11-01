@@ -116,7 +116,7 @@ export async function handleCadastrarCliente(args: unknown): Promise<string> {
   const client = getCVCRMClient();
   const validatedArgs = cadastrarClienteSchema.parse(args);
 
-  const cliente = await client.cadastrarCliente(validatedArgs as any);
+  const cliente = await client.cadastrarCliente(validatedArgs);
 
   const tipoPessoaLabel = validatedArgs.tipoPessoa === 'fisica' ? 'Pessoa Física' : 'Pessoa Jurídica';
   const documento = validatedArgs.tipoPessoa === 'fisica' 
